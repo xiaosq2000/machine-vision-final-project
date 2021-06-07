@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "C:\\mingw-w64-9.0.0\\build\\bin\\g++.exe",
+			"args": [
+				"-g",
+				"-std=c++17",
+				"${file}",
+				"-o",
+				"${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
+				"-I",
+				"${workspaceFolder}\\include",
+				"-I",
+				"C:\\OpenCv\\OpenCV-MinGW-Build-OpenCV-4.1.1-x64\\include",
+				"-L",
+				"${workspaceFolder}\\bin",
+				"-l",
+				"libopencv_core411",
+				"-l",
+				"libopencv_dnn411",
+				"-l",
+				"libopencv_flann411",
+				"-l",
+				"libopencv_highgui411",
+				"-l",
+				"libopencv_imgcodecs411",
+				"-l",
+				"libopencv_imgproc411",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "MinGW-w64 9.0.0, g++ 11.1.0"
+		}
+	]
+}
