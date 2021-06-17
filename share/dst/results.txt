@@ -1,0 +1,72 @@
+Image filename: 1.bmp
+
+Left semicircle: 
+center: [208.015, 210.687]
+radius: 170.839
+inlier percentage: 0.714286
+
+Right semicircle: 
+center: [7.5, 200]
+radius: 170.018
+inlier percentage: 0.826087
+
+Image filename: 2.bmp
+
+Left semicircle: 
+center: [197.513, 217.179]
+radius: 168.73
+inlier percentage: 0.769231
+
+Right semicircle: 
+center: [-0.75, 205.75]
+radius: 168.162
+inlier percentage: 0.821429
+
+Image filename: 3.bmp
+
+Left semicircle: 
+center: [195.964, 213.399]
+radius: 166.712
+inlier percentage: 0.878788
+
+Right semicircle: 
+center: [-1.90171, 201.859]
+radius: 162.725
+inlier percentage: 0.75
+
+Image filename: 4.bmp
+
+Left semicircle: 
+center: [200.79, 213.885]
+radius: 166.37
+inlier percentage: 0.62963
+
+Right semicircle: 
+center: [6.34615, 201.346]
+radius: 168.807
+inlier percentage: 0.814815
+
+Image filename: 5.bmp
+
+Left semicircle: 
+center: [210.312, 210.469]
+radius: 170.552
+inlier percentage: 0.83871
+
+Right semicircle: 
+center: [10.6818, 200]
+radius: 169.392
+inlier percentage: 0.727273
+
+Image filename: 6.bmp
+
+Left semicircle: 
+center: [186.389, 209.167]
+radius: 167.141
+inlier percentage: 0.653846
+
+Right semicircle: 
+center: [-14.5775, 197.218]
+radius: 163.987
+inlier percentage: 0.884615
+

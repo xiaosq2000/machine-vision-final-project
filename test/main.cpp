@@ -7,12 +7,19 @@
  * @date 2021-06-07
  * 
  */
-#include "measurement.hpp"
+
+#include "measurement.h"
 
 int main()
 {
+    std::clock_t c_start = std::clock();
+
     Measurement test;
-    test.Line();
-    test.Semicircle();
+    test.Semicircle(520, 980, 220, 400, "left", 100);
+    test.Semicircle(1520, 980, 220, 400, "right", 100);
+    test.Save();
+
+    std::clock_t c_end = std::clock();
+    std::cout << 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC << "ms" << std::endl;
     return 0;
 }

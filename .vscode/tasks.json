@@ -8,9 +8,10 @@
 			"args": [
 				"-g",
 				"-std=c++17",
-				"${file}",
+				"${workspaceFolder}\\src\\measurement.cpp",
+				"${workspaceFolder}\\test\\main.cpp",
 				"-o",
-				"${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
+				"${workspaceFolder}\\bin\\main.exe",
 				"-I",
 				"${workspaceFolder}\\include",
 				"-I",
