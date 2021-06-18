@@ -164,7 +164,7 @@ void Measurement::Semicircle(const int &x_upper_left,
         GetSamplePoints(img_edge, sample_pts);
         if (sample_pts.size() == 0)
         {
-            std::cout << "error: " << this->imgs_filename_[i] <<"--- no sample points." << std::endl;
+            std::cout << "error: " << this->imgs_filename_[i] << "--- no sample points." << std::endl;
             continue;
         }
         // else std::cout << sample_pts.size() << std::endl;
