@@ -1,3 +1,11 @@
+/**
+ * @file measurement.h
+ * @author 
+ * @brief "1D测量"类的声明
+ * @version 0.1
+ * @date 2021-06-17
+ * 
+ */
 
 #ifndef _MEASUREMENT_H_
 #define _MEASUREMENT_H_
@@ -44,6 +52,8 @@ private:
     std::vector<std::string> imgs_filename_;
     unsigned int imgs_total_num;
 
+    float subpixel_ratio_;
+
     cv::Rect left_semicircle_roi_;
     std::vector<float> left_semicircle_inlier_percentage_;
     std::vector<cv::Point2f> left_semicircle_center_;
@@ -64,7 +74,8 @@ public:
                     const int &width = 220,
                     const int &height = 400,
                     const std::string &semicircle_type = "left",
-                    const int &iteration_times = 100);
+                    const int &iteration_times = 100,
+                    const float &subpixel_ratio = 0.5);
     void Save();
 };
 

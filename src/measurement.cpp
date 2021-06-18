@@ -29,7 +29,7 @@ void GetSamplePoints(const cv::Mat &src, std::vector<cv::Point2f> &sample_pts)
 {
     for (size_t y = 0; y < src.rows; y += 5)
     {
-        for (size_t x = 0; x < src.cols; x += 5)
+        for (size_t x = 0; x < src.cols; ++x)
         {
             if (src.at<uchar>(y, x) > 0)
             {
@@ -58,7 +58,7 @@ float CircleVerification(const std::vector<cv::Point2f> &sample_pts, const cv::P
     for (size_t i = 0; i < cnt_total; ++i)
     {
         temp_distance = cv::norm(sample_pts[i] - center);
-        if (fabs(temp_distance - radius) < 1.0f)
+        if (fabs(temp_distance - radius) < 5.0f)
         {
             cnt_inlier++;
         }
@@ -119,9 +119,10 @@ void Measurement::Semicircle(const int &x_upper_left,
                              const int &width,
                              const int &height,
                              const std::string &semicircle_type,
-                             const int &iteration_times)
+                             const int &iteration_times,
+                             const float &subpixel_ratio)
 {
-    cv::Mat img_roi, img_edge;
+    cv::Mat img_roi, img_intrpl, img_edge;
     for (size_t i = 0; i < imgs_total_num; i++)
     {
         if (semicircle_type == "left")
@@ -141,9 +142,10 @@ void Measurement::Semicircle(const int &x_upper_left,
             img_roi = this->imgs_src_[i](this->right_semicircle_roi_);
         }
 
-        img_edge = cv::Mat::zeros(img_roi.size(), img_roi.type());
+        this->subpixel_ratio_ = subpixel_ratio;
         cv::GaussianBlur(img_roi, img_roi, cv::Size(3, 3), 2, 2, 4);
-        cv::Canny(img_roi, img_edge, 30, 70, 3);
+        cv::resize(img_roi, img_intrpl, cv::Size(static_cast<int>(img_roi.cols / subpixel_ratio), static_cast<int>(img_roi.rows / subpixel_ratio)), 0, 0, cv::INTER_CUBIC);
+        cv::Canny(img_intrpl, img_edge, 20, 60, 3);
 
         if (semicircle_type == "left")
         {
@@ -156,10 +158,16 @@ void Measurement::Semicircle(const int &x_upper_left,
             cv::rectangle(img_edge, center_zone, cv::Scalar(0), -1);
         }
 
-        // cv::imwrite(this->imgs_dst_directory_ + "/" + std::to_string(img_idx + 1) + "_" + "edge" + "_" + semicircle_type + ".jpg", img_edge);
+        // cv::imwrite(this->imgs_dst_directory_ + "/" + std::to_string(i + 1) + "_" + "edge" + "_" + semicircle_type + ".jpg", img_edge);
 
         std::vector<cv::Point2f> sample_pts;
         GetSamplePoints(img_edge, sample_pts);
+        if (sample_pts.size() == 0)
+        {
+            std::cout << "error: " << this->imgs_filename_[i] <<"--- no sample points." << std::endl;
+            continue;
+        }
+        // else std::cout << sample_pts.size() << std::endl;
 
         float best_inlier_percentage = 0;
         float best_radius;
@@ -187,16 +195,6 @@ void Measurement::Semicircle(const int &x_upper_left,
                     best_inlier_percentage = temp_inlier_percentage;
                     best_radius = radius;
                     best_center = center;
-
-                    if (i == 3 && semicircle_type == "left")
-                    {
-                        cv::Mat img_display = img_roi.clone();
-                        cv::circle(img_display, sample_pts[idx1], 5, cv::Scalar(0), -1);
-                        cv::circle(img_display, sample_pts[idx2], 5, cv::Scalar(0), -1);
-                        cv::circle(img_display, sample_pts[idx3], 5, cv::Scalar(0), -1);
-                        cv::circle(img_display, best_center, best_radius, cv::Scalar(0), 1);
-                        cv::imwrite(this->imgs_dst_directory_ + "/gif/" + std::to_string(it + 1) + ".jpg", img_display);
-                    }
                 }
             }
         }
@@ -228,29 +226,27 @@ void Measurement::Save()
     results_txt_file.open(this->imgs_dst_directory_ + "/" + "results.txt", std::ios::ate);
     for (size_t i = 0; i < imgs_total_num; ++i)
     {
+        cv::Point2f src_left_semicircle_center{this->left_semicircle_center_[i].x * this->subpixel_ratio_ + this->left_semicircle_roi_.x, this->left_semicircle_center_[i].y * this->subpixel_ratio_ + this->left_semicircle_roi_.y};
+        cv::Point2f src_right_semicircle_center{this->right_semicircle_center_[i].x * this->subpixel_ratio_ + this->right_semicircle_roi_.x, this->right_semicircle_center_[i].y * this->subpixel_ratio_ + this->right_semicircle_roi_.y};
+        float src_left_semicircle_radius = this->left_semicircle_radius_[i] * this->subpixel_ratio_;
+        float src_right_semicircle_radius = this->right_semicircle_radius_[i] * this->subpixel_ratio_;
         results_txt_file << "Image filename: " << this->imgs_filename_[i] << std::endl
                          << std::endl
                          << "Left semicircle: " << std::endl
-                         << "center: " << this->left_semicircle_center_[i] << std::endl
-                         << "radius: " << this->left_semicircle_radius_[i] << std::endl
+                         << "center: " << src_left_semicircle_center << std::endl
+                         << "radius: " << src_left_semicircle_radius << std::endl
                          << "inlier percentage: " << this->left_semicircle_inlier_percentage_[i] << std::endl
                          << std::endl
                          << "Right semicircle: " << std::endl
-                         << "center: " << this->right_semicircle_center_[i] << std::endl
-                         << "radius: " << this->right_semicircle_radius_[i] << std::endl
+                         << "center: " << src_right_semicircle_center << std::endl
+                         << "radius: " << src_right_semicircle_radius << std::endl
                          << "inlier percentage: " << this->right_semicircle_inlier_percentage_[i] << std::endl
                          << std::endl;
-    }
-    results_txt_file.close();
-
-    for (size_t i = 0; i < this->imgs_total_num; ++i)
-    {
-        cv::Point2f left_center{this->left_semicircle_center_[i].x + this->left_semicircle_roi_.x, this->left_semicircle_center_[i].y + this->left_semicircle_roi_.y};
-        cv::circle(this->imgs_src_[i], left_center, this->left_semicircle_radius_[i], cv::Scalar(0), 2);
-        cv::circle(this->imgs_src_[i], left_center, 2, cv::Scalar(0), -1);
-        cv::Point2f right_center{this->right_semicircle_center_[i].x + this->right_semicircle_roi_.x, this->right_semicircle_center_[i].y + this->right_semicircle_roi_.y};
-        cv::circle(this->imgs_src_[i], right_center, this->right_semicircle_radius_[i], cv::Scalar(0), 2);
-        cv::circle(this->imgs_src_[i], right_center, 2, cv::Scalar(0), -1);
+        cv::circle(this->imgs_src_[i], src_left_semicircle_center, src_left_semicircle_radius, cv::Scalar(0), 2);
+        cv::circle(this->imgs_src_[i], src_left_semicircle_center, 2, cv::Scalar(0), -1);
+        cv::circle(this->imgs_src_[i], src_right_semicircle_center, src_right_semicircle_radius, cv::Scalar(0), 2);
+        cv::circle(this->imgs_src_[i], src_right_semicircle_center, 2, cv::Scalar(0), -1);
         cv::imwrite(this->imgs_dst_directory_ + "/" + std::to_string(i + 1) + ".jpg", this->imgs_src_[i]);
     }
+    results_txt_file.close();
 }

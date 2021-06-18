@@ -1,72 +1,72 @@
 Image filename: 1.bmp
 
 Left semicircle: 
-center: [208.015, 210.687]
-radius: 170.839
-inlier percentage: 0.714286
+center: [728.945, 1191.38]
+radius: 170.499
+inlier percentage: 0.931035
 
 Right semicircle: 
-center: [7.5, 200]
-radius: 170.018
-inlier percentage: 0.826087
+center: [1527.89, 1179.98]
+radius: 169.576
+inlier percentage: 0.963855
 
 Image filename: 2.bmp
 
 Left semicircle: 
-center: [197.513, 217.179]
-radius: 168.73
-inlier percentage: 0.769231
+center: [720.904, 1197.02]
+radius: 170.609
+inlier percentage: 0.958175
 
 Right semicircle: 
-center: [-0.75, 205.75]
-radius: 168.162
-inlier percentage: 0.821429
+center: [1518.51, 1185.58]
+radius: 168.318
+inlier percentage: 0.967871
 
 Image filename: 3.bmp
 
 Left semicircle: 
-center: [195.964, 213.399]
-radius: 166.712
-inlier percentage: 0.878788
+center: [716.573, 1193.6]
+radius: 166.842
+inlier percentage: 0.96124
 
 Right semicircle: 
-center: [-1.90171, 201.859]
-radius: 162.725
-inlier percentage: 0.75
+center: [1514.68, 1182.5]
+radius: 165.759
+inlier percentage: 0.985075
 
 Image filename: 4.bmp
 
 Left semicircle: 
-center: [200.79, 213.885]
-radius: 166.37
-inlier percentage: 0.62963
+center: [726.059, 1192.16]
+radius: 170.332
+inlier percentage: 0.954887
 
 Right semicircle: 
-center: [6.34615, 201.346]
-radius: 168.807
-inlier percentage: 0.814815
+center: [1525.7, 1181.73]
+radius: 169.492
+inlier percentage: 0.966667
 
 Image filename: 5.bmp
 
 Left semicircle: 
-center: [210.312, 210.469]
-radius: 170.552
-inlier percentage: 0.83871
+center: [730.268, 1189.98]
+radius: 169.607
+inlier percentage: 0.925795
 
 Right semicircle: 
-center: [10.6818, 200]
-radius: 169.392
-inlier percentage: 0.727273
+center: [1529.92, 1179.25]
+radius: 169.607
+inlier percentage: 0.961131
 
 Image filename: 6.bmp
 
 Left semicircle: 
-center: [186.389, 209.167]
-radius: 167.141
-inlier percentage: 0.653846
+center: [707.184, 1188.13]
+radius: 166.518
+inlier percentage: 0.972112
 
 Right semicircle: 
-center: [-14.5775, 197.218]
-radius: 163.987
-inlier percentage: 0.884615
+center: [1504.9, 1177.09]
+radius: 163.874
+inlier percentage: 1
 
